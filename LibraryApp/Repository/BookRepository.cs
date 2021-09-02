@@ -153,5 +153,58 @@ namespace LibraryApp.Repository
 
             return user;
         }
+
+        //запрос на получение количества книг на руках у пользователя
+        public static int GetNumberOfBooksInTheUsersHands(User user)
+        {
+            int count = 0;
+            using(ApplicationContext db = new ApplicationContext())
+            {
+                count = db.Books.Where(u => u.UserId == user.Id).Select(b => b.Id).Count();                    
+            }
+            return count;
+        }
+
+        //запрос на получение последней вышедшей книги
+        public static string GetTheLatestPublishedeBook()
+        {
+            string book;
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                book = db.Books.OrderByDescending(b => b.Year).Select(b => b.Name).FirstOrDefault();
+            }
+            
+            return book;
+        }
+
+        //запрос на получение списка всех книг, отсортированного в алфавитном порядке по названию
+        public static void GetAllBooksList()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var books = db.Books.OrderBy(b => b.Name).Select(b => b.Name).ToList();
+
+                foreach (var book in books)
+                {
+                    Console.WriteLine(book);
+                }
+            }
+            Console.WriteLine();
+        }
+
+        //запрос на получение списка всех книг, отсортированного в порядке убывания года их выхода
+        public static void GetAllBooksListByYearDescending()
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                var books = db.Books.OrderByDescending(b => b.Year).Select(b => b.Name).ToList();
+
+                foreach (var book in books)
+                {
+                    Console.WriteLine(book);
+                }
+            }
+            Console.WriteLine();
+        }
     }
 }

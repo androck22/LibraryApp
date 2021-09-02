@@ -39,7 +39,7 @@ namespace LibraryApp
                 UserRepository.CreateUser(user4);
 
                 //удаление пользователя
-                UserRepository.DeleteUser(user4);
+                //UserRepository.DeleteUser(user4);
 
                 //обновление имени пользователя
                 UserRepository.UpdateUser(user1, "Andrew");
@@ -54,6 +54,7 @@ namespace LibraryApp
                 {
                     Console.WriteLine(user.Name);
                 }
+                Console.WriteLine();
 
 
                 book1.User = user1;
@@ -63,7 +64,7 @@ namespace LibraryApp
                 book5.User = user2;
                 user2.Books.Add(book6);
                 book7.User = user4;
-
+                db.SaveChanges();
 
                 //-------------------------------------------------------------------------------
                 //дополнительные LINQ запросы
@@ -117,8 +118,31 @@ namespace LibraryApp
                 Console.WriteLine();
                 #endregion
 
+                //запрос на получение количества книг на руках у пользователя
+                #region 
+                var numberOfBooksInTheUsersHands = BookRepository.GetNumberOfBooksInTheUsersHands(user2);
+                Console.WriteLine($"У пользователя {user2.Name} на руках находится {numberOfBooksInTheUsersHands} книга(-ги)");
+                Console.WriteLine();
+                #endregion
 
+                //запрос на получение последней вышедшей книги
+                #region 
+                string theLatestPublishedeBook = BookRepository.GetTheLatestPublishedeBook();
+                Console.WriteLine($"Последняя изданная книга в библиотеке: {theLatestPublishedeBook}");
+                Console.WriteLine();
+                #endregion
 
+                //запрос на получение списка всех книг, отсортированного в алфавитном порядке по названию
+                #region 
+                Console.WriteLine("Списка всех книг, отсортированного в алфавитном порядке по названию:");
+                BookRepository.GetAllBooksList();
+                #endregion
+
+                //запрос на получение списка всех книг, отсортированного в порядке убывания года их выхода
+                #region 
+                Console.WriteLine("Списка всех книг, отсортированного в порядке убывания года их выхода:");
+                BookRepository.GetAllBooksListByYearDescending();
+                #endregion
             }
 
         }
